@@ -15,6 +15,5 @@ corpo [1,2,3,4] == [1,2,3]
 main = do
     a <- readLn :: IO [Int]
     print $ corpo a
-
 ```
 <!--MAIN_END-->
