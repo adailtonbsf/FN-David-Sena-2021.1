@@ -3,7 +3,7 @@ import java.util.stream.IntStream;
 public class euler1 {
 
     static int euler1(int a) {
-		return IntStream.rangeClosed(1, a)
+		return IntStream.rangeClosed(1, a-1)
 				.filter(x -> x % 3 == 0 || x % 5 == 0)
 				.sum();
 	}
