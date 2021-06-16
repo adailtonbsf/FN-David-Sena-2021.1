@@ -1,3 +1,4 @@
+remove a [] = []
 remove a (x:xs)
     | a == x = xs
     | otherwise = x:remove a xs
