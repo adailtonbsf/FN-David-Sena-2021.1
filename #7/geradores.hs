@@ -1,6 +1,6 @@
 import Data.List ( unfoldr )
 
-gerador1 = concat  [[x,y] | (x,y) <- zip (iterate (+ 1 * (-1)) 0) [1..]]
+gerador1 = concat [[x,y] | (x,y) <- zip (iterate (+ 1 * (-1)) 0) [1..]]
 
 gerador2 = concat [[x,y] | (x,y) <- zip [1,3..] [-2,-4..]]
 
