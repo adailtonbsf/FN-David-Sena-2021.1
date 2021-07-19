@@ -92,7 +92,7 @@ $end
 
 ***
 ## Diagrama
-![](diagrama.png)
+![](https://github.com/qxcodepoo/arcade/blob/master/base/002/diagrama.png?raw=true)
 
 
 ***
