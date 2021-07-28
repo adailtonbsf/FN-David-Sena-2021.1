@@ -1,5 +1,4 @@
 import qualified Data.Map as Map
-import Data.Maybe
 import Data.Either
 data Estado = Alugado | Livre deriving (Show, Eq)
 type Codigo = String
@@ -15,7 +14,7 @@ consulta indice armarios = if null armario then Nothing else Just (head armario)
 -- dado o número do armário, retorna Right armário ou Left "Armario nao existe"
 pegarArmario :: Int -> Armarios -> Either String Armario
 pegarArmario indice armarios = if not (null armario) then Right (head armario)
-                                    else Left "Armario nao existe"
+                                    else Left ("Armario " ++ show indice ++ " nao existe")
     where armario = [(estado, codigo) | (int, (estado, codigo)) <- Map.toList armarios, int == indice]
 
 -- consultar: dado o número de um armário retorna "Right código"
@@ -25,7 +24,7 @@ pegarArmario indice armarios = if not (null armario) then Right (head armario)
 pegarCodigo :: Int -> Armarios -> Either String Codigo
 pegarCodigo indice armarios = if isRight pegaArmario
                                 then
-                                    if null armario then Left "ja esta ocupado"
+                                    if null armario then Left ("Armario " ++ show indice ++ " ja esta ocupado")
                                     else Right (head armario)
                                 else Left (head (lefts [pegaArmario]))
     where
@@ -36,29 +35,26 @@ pegarCodigo indice armarios = if isRight pegaArmario
 -- aluguel - se o armário existir e estiver desocupado, o estado do armário no mapa é alterado para alugado
 -- reaproveite a função pegarCodigo para obter a chave atual e os erros de "não existe" e "está ocupado"
 aluguel :: Int -> Armarios -> Either String Armarios
-aluguel indice armarios = if isRight pegaCodigo then Right lista
-                          else Left (head (lefts [pegaCodigo]))
+aluguel indice armarios = if isRight pegaCodigo then Right lista else Left (head (lefts [pegaCodigo]))
     where
-        lista = Map.insert indice (Alugado, cod) $ Map.fromList [(int, (estado, codigo)) | (int, (estado, codigo)) <- Map.toList armarios, int /= indice]
-        (est, cod) = head $ rights [pegarArmario indice armarios]
+        lista = Map.insert indice (Alugado, codig) $ Map.fromList [(int, (estado, codigo)) | (int, (estado, codigo)) <- Map.toList armarios, int /= indice]
+        (_, codig) = head $ rights [pegarArmario indice armarios]
         pegaCodigo = pegarCodigo indice armarios
-        consultar = consulta indice armarios
 
 -- para devolver um armário é necessário que ele exista, que esteja alugado e que o código esteja correto
 -- utilize a função pegar armário para verificar a existência.
 -- Se o armário não estiver alugado ou se o código estiver incorreto avise utilizando o Left.
 devolucao :: Int -> Codigo -> Armarios -> Either String Armarios
 devolucao indice codigo armarios =  if isRight pegaArmario then
-                                                            if consultar == Just Alugado then 
-                                                                                            if codigo == cod then Right lista
-                                                                                            else Left "Codigo incorreto"
-                                                            else Left "Armario nao esta alugado"
+                                        if consultar == Just Alugado then 
+                                            if codigo == codig then Right lista
+                                            else Left "Codigo incorreto"
+                                        else Left ("Armario " ++ show indice ++ " nao esta alugado")
                                     else Left (head (lefts [pegaArmario]))
     where
-        lista = Map.insert indice (Livre, cod) $ Map.fromList [(int, (estado, codigo)) | (int, (estado, codigo)) <- Map.toList armarios, int /= indice]
-        (est, cod) = head $ rights [pegarArmario indice armarios]
+        lista = Map.insert indice (Livre, codig) $ Map.fromList [(int, (estado, codigo)) | (int, (estado, codigo)) <- Map.toList armarios, int /= indice]
+        (_, codig) = head $ rights [pegaArmario]
         pegaArmario = pegarArmario indice armarios
-        pegaCodigo = pegarCodigo indice armarios
         consultar = consulta indice armarios
 
 lockers :: Armarios
