@@ -48,47 +48,44 @@ lockers :: Armarios
 lockers = Map.fromList
     [(100,(Alugado,"ZD39I"))
     ,(101,(Livre,"JAH3I"))
-    ,(103,(Livre,"IQSA9"))
-    ,(105,(Livre,"QOTSA"))
     ,(109,(Alugado,"893JJ"))
     ,(110,(Alugado,"99292"))
     ]
 
 main :: IO ()
 main = do
-    let armarios = lockers
-    print $ armarios
-    print $ consulta 100 armarios
-    print $ consulta 101 armarios
-    print $ consulta 200 armarios
-    print $ pegarCodigo 100 armarios
-    print $ pegarCodigo 101 armarios
-    print $ pegarCodigo 200 armarios
-    print $ aluguel 100 armarios
-    print $ consulta 101 armarios
-    let armarios1 = fromRight armarios $ aluguel 101 armarios
-    print $ consulta 101 armarios1
-    print $ fromLeft "" $ devolucao 103 "IQSA9" armarios1
-    print $ fromLeft "" $ devolucao 101 "ZD39I" armarios1
+    let armarios0 = lockers
+    print $ "01 " ++ show armarios0
+    print $ "02 " ++ show (consulta 100 armarios0)
+    print $ "03 " ++ show (consulta 101 armarios0)
+    print $ "04 " ++ show (consulta 200 armarios0)
+    print $ "05 " ++ show (pegarCodigo 100 armarios0)
+    print $ "06 " ++ show (pegarCodigo 101 armarios0)
+    print $ "07 " ++ show (pegarCodigo 200 armarios0)
+    print $ "08 " ++ show (aluguel 100 armarios0)
+    print $ "09 " ++ show (consulta 101 armarios0)
+    let armarios1 = fromRight armarios0 $ aluguel 101 armarios0
+    print $ "10 " ++ show (consulta 101 armarios1)
+    print $ "11 " ++ show (fromLeft "" $ devolucao 103 "IQSA9" armarios1)
+    print $ "12 " ++ show (fromLeft "" $ devolucao 101 "ZD39I" armarios1)
     let armarios2 = fromRight armarios1 $ devolucao 110 "99292" armarios1
-    print $ consulta 110 armarios2
-    print $ armarios2
+    print $ "13 " ++ show (consulta 110 armarios2)
+    print $ "14 " ++ show armarios2
 
 {--
-fromList [(100,(Alugado,"ZD39I")),(101,(Livre,"JAH3I")),(103,(Livre,"IQSA9")),(105,(Livre,"QOTSA")),(109,(Alugado,"893JJ")),(110,(Alugado,"99292"))]
-Just Alugado
-Just Livre
-Nothing
-Left "Armario 100 ja esta ocupado"
-Right "JAH3I"
-Left "Armario 200 nao existe"
-Left "Armario 100 ja esta ocupado"
-Just Livre
-Just Alugado
-"Armario nao esta alugado"
-"Codigo incorreto"
-Just Livre
-fromList [(100,(Alugado,"ZD39I")),(101,(Alugado,"JAH3I")),(103,(Livre,"IQSA9")),(105,(Livre,"QOTSA")),(109,(Alugado,"893JJ")),(110,(Livre,"99292"))]
-
+"01 fromList [(100,(Alugado,\"ZD39I\")),(101,(Livre,\"JAH3I\")),(109,(Alugado,\"893JJ\")),(110,(Alugado,\"99292\"))]"
+"02 Just Alugado"
+"03 Just Livre"
+"04 Nothing"
+"05 Left \"Armario 100 ja esta ocupado\""
+"06 Right \"JAH3I\""
+"07 Left \"Armario 200 nao existe\""
+"08 Left \"Armario 100 ja esta ocupado\""
+"09 Just Livre"
+"10 Just Alugado"
+"11 \"Armario 103 nao existe\""
+"12 \"Codigo incorreto\""
+"13 Just Livre"
+"14 fromList [(100,(Alugado,\"ZD39I\")),(101,(Alugado,\"JAH3I\")),(109,(Alugado,\"893JJ\")),(110,(Livre,\"99292\"))]"
 --}
 ```
